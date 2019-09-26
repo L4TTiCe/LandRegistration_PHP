@@ -1,0 +1,90 @@
+html, body{
+	margin: 0;
+	height: 100%;
+}
+
+#seal{
+	width: 100px;
+
+	padding: 1em;
+	transition: all 0.2s;
+}
+
+#seal:hover{
+	transform: scale(1.1);
+}
+
+header{
+	display: grid !important;
+
+	grid-template-columns: auto 1fr; 
+}
+
+.center-vertical{
+	display: block;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.logo-word{
+	padding: 1em;
+	font-family: 'Noto Serif', serif;
+	font-size: 1.5em;
+}
+
+nav ul{
+	list-style-type: none;
+  	margin: 0;
+  	padding: 0;
+}
+
+nav li{
+	float: left;
+}
+
+nav li a{
+	display: block;
+  	color: white;
+  	text-align: center;
+  	padding: 14px 16px;
+	text-decoration: none;
+	  
+	transition: all 0.4s;
+}
+
+nav li a:hover{
+	background-color: #111;
+}
+
+nav ul{
+	list-style-type: none;
+  	margin: 0;
+  	padding: 0;
+  	overflow: hidden;
+	background-color: #333;
+}
+
+nav{
+	font-family: 'Noto Serif', serif;
+
+	transition: all 0.2s;
+}
+
+footer, .push {
+	height: 25px; /* .push must be the same height as .footer */
+
+	background-color: #333;
+	color: white;
+	font-family: 'Noto Serif', serif;
+}
+
+.center{
+	width: fit-content;
+
+	display: block;
+	margin: auto;
+}
+
+.createtag{
+	font-size: 0.8rem;
+}
