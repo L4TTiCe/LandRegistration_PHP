@@ -1,0 +1,18 @@
+Backups/
+blob_storage/
+Cache/
+CachedData/
+CachedExtensions/
+GPUCache/
+User/
+
+Cookies
+Cookies-journal
+languagepacks.json
+machineid
+Network Persistent State
+rapid_render.json
+storage.json
+
+logs/
+currentReg.txt

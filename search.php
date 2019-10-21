@@ -31,95 +31,96 @@
 			</ul>
 		</nav>
 		<div class ="container">      
-			<form method="post" action="<?php $_PHP_SELF ?>">
-				<br><br>
-                <?php
-                    if (isset($_POST['save'])):
-                        $con = mysqli_connect("localhost:3306", "root", "password") or die(mysqli_error());
+            <br><br>
+            <?php
+                if (isset($_POST['save'])):
+                    $con = mysqli_connect("localhost:3306", "root", "password") or die(mysqli_error());
 
-                        $flag = TRUE;
+                    $flag = TRUE;
 
-                        $aadhar = $_POST["LandHolder_aadhar"];
-                        $db = mysqli_select_db($con,"landreg");
-                        $q = "SELECT * FROM land_table WHERE aadhaar=$aadhar";
-                        
-                        $result = mysqli_query($con, $q);
-                        while ($r1 =mysqli_fetch_row($result)):
-                            $flag = FALSE;
-                            echo "Aadhar:<br>";
-				            echo "<input type='text' name='LandHolder_aadhar' value='$r1[0]'><br>";
-                            echo "State:<br>";
-                            echo "<input type='text' name='Land_state' value='$r1[1]'><br>";
-                            echo "District:<br>";
-                            echo "<input type='text' name='Land_district' value='$r1[2]'><br>";
-                            echo "Taluk:<br>";
-                            echo "<input type='text' name='Land_taluk' value='$r1[3]'><br>";
-                            echo "Village:<br>";
-                            echo "<input type='text' name='Land_village' value='$r1[4]'><br>";
-                            echo "Survey Number:<br>";
-                            echo "<input type='text' name='Land_survey_number' value='$r1[5]'><br>";
-                            echo "Subdivision Number:<br>";
-                            echo "<input type='text' name='Land_subdivision_number' value='$r1[6]'><br><br>";
-                        endwhile;
-                            echo "<input type='submit' value='Update' name='alter'>";
-                            echo "<input type='submit' value='Delete' name='delete'><br>";
+                    $aadhar = $_POST["LandHolder_aadhar"];
+                    $db = mysqli_select_db($con,"landreg");
+                    $q = "SELECT * FROM land_table WHERE aadhaar=$aadhar";
+                    
+                    $result = mysqli_query($con, $q); ?>
 
-                        mysqli_close($con);
-
-                        if ($flag):
-                            echo "Aadhar:<br>";
-                            echo "<input type='text' name='LandHolder_aadhar'><br>"; 
-                            echo "<p>No Such Aadhaar Number</p>";
-                        endif;
-                    else:
-                        echo "Aadhar:<br>";
-                        echo "<input type='text' name='LandHolder_aadhar'><br>";    
-                    endif;    
-                    ?>
+                    <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                         <th scope="col">Aadhaar #</th>
+                         <th scope="col">State</th>
+                         <th scope="col">District</th>
+                         <th scope="col">Taluk</th>
+                         <th scope="col">Village</th>
+                         <th scope="col">Survey #</th>
+                         <th scope="col">Subdivision #</th>
+                         <th scope="col">Update</th>
+                         <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <?php
-                        if (isset($_POST['alter'])):
-                            $con = mysqli_connect("localhost:3306", "root", "password") or die(mysqli_error());
+                    while ($r1 =mysqli_fetch_row($result)):
+                        $flag = FALSE;
+                        echo "<tr>";
+                        echo "    <th scope='row'>$r1[1]</th>";
+                        echo "    <td>$r1[2]</td>";
+                        echo "    <td>$r1[3]</td>";
+                        echo "    <td>$r1[4]</td>";
+                        echo "    <td>$r1[5]</td>";
+                        echo "    <td>$r1[6]</td>";
+                        echo "    <td>$r1[7]</td>";
+                        echo "    <td>";
+                        echo "<form method='post' action='update.php'>";
+                        echo "    <input type='hidden' name='tran_id' value='$r1[0]'>";
+                        echo "    <input class='btn' type='submit' name='Update'>";
+                        echo "</form>";
+                        echo "    </td>";
+                        echo "    <td><button class='btn'>Delete</button></td>";
+                        echo "</tr>";
+                    endwhile; ?>
 
-                            $aadhar = $_POST["LandHolder_aadhar"];
-                            $state = $_POST["Land_state"];
-                            $district = $_POST["Land_district"];
-                            $taluk = $_POST["Land_taluk"];
-                            $village = $_POST["Land_village"];
-                            $survey = $_POST["Land_survey_number"];
-                            $subdivision = $_POST["Land_subdivision_number"];
+                        </tbody>
+                    </table>
 
-                            $db = mysqli_select_db($con,"landreg");
+                    <form method='post' action='<?php $_PHP_SELF ?>'>
+                        <div class="form-group">
+                            <label>Aadhaar Number</label>
+                            <input class="form-control form-control-lg" type="text" name="LandHolder_aadhar" placeholder="############"><br>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your Aadhaar details with anyone else.</small>
+                        </div>
+                        <input class="btn btn-primary" type='submit' name='save'><br><br>
+                    </form>
+                    <?php 
+                    mysqli_close($con);
 
-                            $q = "UPDATE land_table SET state_land='$state', district='$district', taluk='$taluk', village='$village', survey='$survey', subdivision='$subdivision' WHERE aadhaar='$aadhar'";
-
-                            if ( mysqli_query($con, $q))
-                                echo "Record Updated";
-                            else
-                                echo "ERROR ".mysqli_error($con);
-
-                            mysqli_close($con);
-                        endif;
-
-                        if (isset($_POST['delete'])):
-                            $con = mysqli_connect("localhost:3306", "root", "password") or die(mysqli_error());
-
-                            $aadhar = $_POST["LandHolder_aadhar"];
-                            $db = mysqli_select_db($con,"landreg");
-
-                            $q = "DELETE FROM land_table WHERE aadhaar=$aadhar";
-
-                            if ( mysqli_query($con, $q))
-                                echo "Record Deleted";
-                            else
-                                echo "ERROR ".mysqli_error($con);
-
-                            mysqli_close($con);
-                        endif;
+                    if ($flag):
+                        ?>
+                        <form method='post' action='<?php $_PHP_SELF ?>'>
+                        <div class="form-group">
+                            <label>Aadhaar Number</label>
+                            <input class="form-control form-control-lg" type="text" name="LandHolder_aadhar" placeholder="############"><br>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your Aadhaar details with anyone else.</small>
+                        </div>
+                        <input class="btn btn-primary" type='submit' name='save'><br><br>
+                        <p>No Such Aadhaar Number in DB</p>
+                        </form>
+                        <?php
+                    endif;
+                else:
                     ?>
-                    <br>
-                    <input type="submit" name="save"><br><br>
-			</form>
-			
+                    <form method='post' action='<?php $_PHP_SELF ?>'>
+                    <div class="form-group">
+                        <label>Aadhaar Number</label>
+                        <input class="form-control form-control-lg" type="text" name="LandHolder_aadhar" placeholder="############"><br>
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your Aadhaar details with anyone else.</small>
+                    </div>
+                    <input class="btn btn-primary" type='submit' name='save'><br><br>
+                    </form>
+                    <?php
+                endif;    
+                ?>
+                <br>
 		</div>
 	</div>
 	<footer>
