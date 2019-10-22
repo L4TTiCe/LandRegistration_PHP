@@ -62,7 +62,13 @@
 					<label>Subdivision Number</label>
 					<input class="form-control" type="text" placeholder="Subdivsion #" name="Land_subdivision_number">
 				</div>
-				<input class="btn btn-primary" type="submit" name='save'>
+				<div class="form-group">
+					<div class="form-group">
+						<label>Authorization Code</label>
+						<input class="form-control" type="password" placeholder="Auth ####" name="auth_code">
+					</div>
+					<input class="btn btn-primary" type="submit" name='save'>
+				</div>
 				<br><br>
 			</form>
 			<?php
@@ -71,6 +77,8 @@
 
 					$file = fopen("currentReg.txt", "w") or die("Unable to open file");
 					$txt = "";
+
+					$auth = $_POST["auth_code"];
 				
 					$aadhar = $_POST["LandHolder_aadhar"];
 					$state = $_POST["Land_state"];
@@ -86,17 +94,21 @@
 					
 					$db = mysqli_select_db($con,"landreg");
 					
-					if(validate($aadhar, $survey, $subdivision)){
-						$q = "INSERT INTO land_table (tran_id, aadhaar, state_land, district, taluk, village, survey, subdivision) values (UUID(), '$aadhar', '$state', '$district', '$taluk', '$village', '$survey', '$subdivision')";
-						if ( mysqli_query($con, $q))
-							echo "record inserted";
-						else
-							echo "error ".mysqli_error($con);
+					if($auth == "TEST"){
+						if(validate($aadhar, $survey, $subdivision)){
+							$q = "INSERT INTO land_table (tran_id, aadhaar, state_land, district, taluk, village, survey, subdivision) values (UUID(), '$aadhar', '$state', '$district', '$taluk', '$village', '$survey', '$subdivision')";
+							if ( mysqli_query($con, $q))
+								echo "record inserted";
+							else
+								echo "error ".mysqli_error($con);
+						}
+						else{
+							echo "Check Inputs [Aadhaar(12 Number Only), Survey # and SubDivision # (Numbers only)]";
+						}
+						mysqli_close($con);
+					} else {
+						echo "Check Auth Code";
 					}
-					else{
-						echo "Check Inputs [Aadhaar(12 Number Only), Survey # and SubDivision # (Numbers only)]";
-					}
-					mysqli_close($con);
 				endif;
 
 				//echo "FILE";
